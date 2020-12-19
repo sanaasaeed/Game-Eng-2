@@ -5,7 +5,7 @@ using System.Linq;
 public class GameController : MonoBehaviour {
     [SerializeField] List<AudioClip> audioClips;
     public char OriginalLetter = 'a';
-    int correctAnswers = 5;
+    int correctAnswers = 4;
     private int correctClicks;
     private AudioSource _audioSource;
     public static GameController Instance { get; private set; }
@@ -50,14 +50,8 @@ public class GameController : MonoBehaviour {
     }
 
     internal void HandleCorrectLetterClick(bool uppercase) {
-        AudioClip clip;
-        if (uppercase) {
-            clip = audioClips.FirstOrDefault(t => t.name == "Capital " + OriginalLetter.ToString().ToUpper());
-        }
-        else {
-            clip = audioClips.FirstOrDefault(t => t.name == OriginalLetter.ToString());
-        }
-        _audioSource.PlayOneShot(clip);
+        AudioClip clip = audioClips.FirstOrDefault(t => t.name == OriginalLetter.ToString());
+            _audioSource.PlayOneShot(clip);
         correctClicks++;
         FindObjectOfType<RemainingCounter>().SetRemaining(correctAnswers - correctClicks);
         if(correctClicks >= correctAnswers) {
